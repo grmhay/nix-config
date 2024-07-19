@@ -50,8 +50,6 @@
     };
   };
 
-  # Make sure firefox is installed - move to a module later?
-  programs.firefox.enable = true;
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -126,19 +124,66 @@
     desktopManager.gnome.enable = true;
   };
 
+  services.displayManager = {
+    defaultSession = "hyprland";
+  };
+
+  # Enable Hyprland
+  programs.hyprland = {
+    enable = true;
+    #xwayland.hidpi = true; # deprecated
+    xwayland.enable = true;
+  };
+
+  # Hint Electon apps to use Wayland
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
+  
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     git
     vim
     wget
+    kitty      # terminal
+
+               ## Hyprland related
+    swww       # Wallpapers
+    xwayland
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-hyprland
+    meson
+    wayland-protocols
+    wayland-utils
+    wl-clipboard
+    wlroots
+    waybar
+               ## Sound - bunch of conflicts below TODO
+    pavucontrol
+    pipewire  # conflicts with pulseaudio says error
   ];
 
+
+  # Make sure firefox is installed - moved to home.nix
+  programs.firefox.enable = true;
 
   # Default system font
 
   fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["FiraCode"];})
   ];
+
+  # Sound
+  sound.enable = true;
+  security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };  
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
