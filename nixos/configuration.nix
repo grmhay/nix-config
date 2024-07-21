@@ -7,7 +7,8 @@
   config,
   pkgs,
   ...
-}: {
+}: 
+{
   # Import other NixOS modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
@@ -23,6 +24,11 @@
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
+
+#  home-manager.users.grmhay = {
+#    home.stateVersion = "24.05";
+#
+#  };
 
 
   nixpkgs = {
@@ -199,6 +205,15 @@
     };
   };
 
+  home-manager.users.grmhay = { pkgs, ... }: {
+  home.packages = [ pkgs.atool pkgs.httpie ];
+  programs.bash.enable = true;
+
+  # The state version is required and should stay at the version you
+  # originally installed.
+  home.stateVersion = "24.05";
+};
+
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   services.openssh = {
@@ -215,4 +230,6 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   # Totally fine to leave this set at the initial install version
   system.stateVersion = "24.05";
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = true;
 }
