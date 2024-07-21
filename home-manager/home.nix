@@ -20,6 +20,11 @@
   #     xxx
   # '';
 
+  imports = [
+   #./home-manager - TODO figure out how to import waybar
+
+  ];  
+
   # set cursor size and dpi for 4k monitor
   xresources.properties = {
     "Xcursor.size" = 16;
@@ -32,6 +37,11 @@
     # feel free to add your own or remove some of them
 
     neofetch
+
+    # Neovim
+    neovim
+    lua-language-server
+
     nnn # terminal file manager
 
     # archives
@@ -46,6 +56,7 @@
     yq-go # yaml processor https://github.com/mikefarah/yq
     eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
+    tmux
 
     # networking tools
     mtr # A network diagnostic tool
@@ -94,7 +105,24 @@
     pciutils # lspci
     usbutils # lsusb
     # Hyprland related
-    
+    swaylock-effects swayidle wlogout swaybg  #Login etc..
+    hyprland-protocols
+    libsForQt5.qt5.qtwayland
+    rofimoji
+    dunst                                     #notifications
+    jellyfin-ffmpeg                           #multimedia libs
+
+    viewnior                                  #image viewr
+    pavucontrol                               #Volume control
+    ####GTK Customization####
+     nordic
+     papirus-icon-theme
+     gtk3
+     glib
+     xcur2png
+     rubyPackages.glib2
+     libcanberra-gtk3                          #notification sound
+     
   ];
 
   # basic configuration of git, please change to your own
@@ -102,6 +130,15 @@
     enable = true;
     userName = "Graeme Hay";
     userEmail = "grmhay@gmail.com";
+  };
+
+  #rofi
+  programs.rofi = {
+    package = pkgs.rofi-wayland;
+    enable = true;
+    plugins = [pkgs.rofimoji];
+    configPath = ".config/rofi/config.rasi";
+    theme = "simple-tokyonight.rasi";
   };
 
   # starship - an customizable prompt for any shell
@@ -146,6 +183,46 @@
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
     };
   };
+
+      #Session variables
+     home.sessionVariables = {
+	    BROWSER = "firefox";
+	    EDITOR = "nvim";
+	    TERMINAL = "kitty";
+	    #NIXOS_OZONE_WL = "1";
+	    QT_QPA_PLATFORMTHEME = "gtk3";
+	    QT_SCALE_FACTOR = "1.25";
+	    MOZ_ENABLE_WAYLAND = "1";
+	    SDL_VIDEODRIVER = "wayland";
+	    _JAVA_AWT_WM_NONREPARENTING = "1";
+	    QT_QPA_PLATFORM = "wayland-egl";
+	    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+	    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+            MOZ_DRM_DEVICE= "/dev/dri/card0:/dev/dri/card1
+";
+	    WLR_DRM_DEVICES = "/dev/dri/card0:/dev/dri/car
+d1";
+	    #WLR_NO_HARDWARE_CURSORS = "1"; # if no cursor uncomment this line
+	    GBM_BACKEND = "nvidia-drm";
+	    CLUTTER_BACKEND = "wayland";
+	    LIBVA_DRIVER_NAME = "iHD";
+	    WLR_RENDERER = "vulkan";
+            VK_DRIVER_FILES="/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+            
+	    #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
+	    #__NV_PRIME_RENDER_OFFLOAD="1";
+	    XDG_CURRENT_DESKTOP = "Hyprland";
+	    XDG_SESSION_DESKTOP = "Hyprland";
+	    XDG_SESSION_TYPE = "wayland";
+	    GTK_USE_PORTAL = "1";
+	    #NIXOS_XDG_OPEN_USE_PORTAL = "1";
+	    XDG_CACHE_HOME = "\${HOME}/.cache";
+	    XDG_CONFIG_HOME = "\${HOME}/.config";
+	    #XDG_BIN_HOME = "/etc/profiles/per-user/{user}/bin";
+	    XDG_BIN_HOME = "/etc/profiles/per-user/grmhay/bin";
+	    XDG_DATA_HOME = "\${HOME}/.local/share";
+
+    };
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage

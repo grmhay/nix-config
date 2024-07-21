@@ -164,7 +164,7 @@
     wayland-utils
     wl-clipboard
     wlroots
-    waybar
+    #waybar
                ## Sound - bunch of conflicts below TODO
     pavucontrol
     pipewire  # conflicts with pulseaudio says error
