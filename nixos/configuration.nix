@@ -152,9 +152,9 @@
     git
     vim
     wget
-    kitty      # terminal
+    python3
 
-               ## Hyprland related
+    ## Hyprland related
     swww       # Wallpapers
     xwayland
     xdg-desktop-portal-gtk
